@@ -1,4 +1,19 @@
-﻿# GitHub 绮剧畝鐗堣鏄?杩欐槸闈㈠悜 GitHub 鍙戝竷鐨勭簿绠€椤圭洰鐗堟湰銆?
-鐗圭偣锛?- 鍙繚鐣欐簮鐮併€佸墠绔€佹祴璇曘€佽縼绉汇€侀儴缃茶剼鏈拰瀵瑰鏂囨。
-- 涓嶅寘鍚换浣曢」鐩蹇嗘枃浠?- 涓嶅寘鍚湰鍦?.env
-- 涓嶅寘鍚唴閮ㄨ繃绋嬫姤鍛娿€佷氦浠樿崏绋垮拰鏉傞」鑴氭湰
+﻿# GitHub Minimal Variant
+
+This variant is for GitHub publication and keeps only files that are appropriate for public delivery.
+
+It keeps:
+- source code
+- frontend assets
+- migrations
+- scripts
+- tests
+- Docker files
+- public-facing documentation
+
+It removes:
+- project memory files
+- local .env
+- internal iteration reports
+- temporary repair scripts
+- local logs and caches
