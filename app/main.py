@@ -23,6 +23,8 @@ logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIST_DIR = BASE_DIR / "frontend" / "dist"
 LEGACY_STATIC_DIR = BASE_DIR / "app" / "static"
+SPA_EXCLUDED_PREFIXES = ("api/", "assets/", "static/", "redoc")
+SPA_EXCLUDED_PATHS = {"health", "init", "openapi.json", "favicon.svg", "icons.svg"}
 
 
 @asynccontextmanager
@@ -30,6 +32,12 @@ async def lifespan(app: FastAPI):
     SyncScheduler.init()
     yield
     SyncScheduler.shutdown()
+
+
+def _frontend_index_response() -> FileResponse:
+    if (FRONTEND_DIST_DIR / "index.html").exists():
+        return FileResponse(FRONTEND_DIST_DIR / "index.html")
+    return FileResponse(LEGACY_STATIC_DIR / "index.html")
 
 
 def create_app() -> FastAPI:
@@ -81,9 +89,7 @@ def create_app() -> FastAPI:
 
     @app.get("/")
     async def root():
-        if (FRONTEND_DIST_DIR / "index.html").exists():
-            return FileResponse(FRONTEND_DIST_DIR / "index.html")
-        return FileResponse(LEGACY_STATIC_DIR / "index.html")
+        return _frontend_index_response()
 
     @app.get("/favicon.svg")
     async def frontend_favicon():
@@ -99,6 +105,13 @@ def create_app() -> FastAPI:
 
     if (FRONTEND_DIST_DIR / "assets").exists():
         app.mount("/assets", StaticFiles(directory=FRONTEND_DIST_DIR / "assets"), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def spa_fallback(full_path: str):
+        normalized = full_path.strip("/")
+        if normalized in SPA_EXCLUDED_PATHS or normalized.startswith(SPA_EXCLUDED_PREFIXES):
+            raise HTTPException(status_code=404, detail="Not Found")
+        return _frontend_index_response()
 
     return app
 

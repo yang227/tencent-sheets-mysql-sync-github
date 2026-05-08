@@ -37,6 +37,15 @@ const routes = [
       description: '聚合健康分、吞吐概览与错误面板，便于持续迭代优化。',
     },
   },
+  {
+    path: '/docs/data',
+    name: 'data-docs',
+    component: () => import('../views/DataDocsView.vue'),
+    meta: {
+      title: '实施文档',
+      description: '面向实施、运维与交付的标准使用说明，覆盖环境、配置、建模、验证与巡检。',
+    },
+  },
 ]
 
 const router = createRouter({

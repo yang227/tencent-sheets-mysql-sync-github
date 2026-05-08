@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { DataAnalysis, FolderOpened, Link, Refresh } from '@element-plus/icons-vue'
+import { DataAnalysis, Document, FolderOpened, Link, Refresh } from '@element-plus/icons-vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -48,5 +48,6 @@ const navItems = [
   { path: '/connections', label: '连接中心', icon: Link },
   { path: '/jobs', label: '同步任务', icon: Refresh },
   { path: '/monitor', label: '运行监控', icon: FolderOpened },
+  { path: '/docs/data', label: '实施文档', icon: Document },
 ]
 </script>
